@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1538196622 source:c:\users\martin\desktop\utn\laboratorio i\tps\tp 2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"empleados.h"
+
+1538161552 c:\users\martin\desktop\utn\laboratorio i\tps\tp 2\utn.h
+
+1538161646 source:c:\users\martin\desktop\utn\laboratorio i\tps\tp 2\utn.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+
+1538194339 source:c:\users\martin\desktop\utn\laboratorio i\tps\tp 2\empleados.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"empleados.h"
+	"utn.h"
+
+1538196489 c:\users\martin\desktop\utn\laboratorio i\tps\tp 2\empleados.h
+
