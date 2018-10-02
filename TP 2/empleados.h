@@ -9,15 +9,16 @@ float salario;
 int isEmpty;
 }typedef Empleado;
 
-int altaForzada(Empleado* empleados, int limite,char* nombre,int sector, char* apellido, float salario);
-int cargarDatosVacio(Empleado* empleados,int limite);
-int cargarIndice(Empleado* empleados,int indice,int limite);
-int indicesVacios(Empleado* empleados,int limite,int* indiceVacio);
-int buscarPantallaPorID(Empleado* empleados, int limite, int id);
-int modificarID(Empleado* empleados, int indice, int limite);
-int borrarPantallaPorID(Empleado* empleados, int id, int limite);
-int chequearIndice(Empleado* empleados,int limite);
-int calcularTotalPromedioSalarios(Empleado* empleados, int limite);
-
+int emp_cargarDatosVacio(Empleado* pEmpleados,int limite);
+int emp_cargarIndice(Empleado* pEmpleados,int indice,int limite);
+int emp_indicesVacios(Empleado* pEmpleados,int limite,int* indiceVacio);
+int emp_buscarPantallaPorID(Empleado* pEmpleados, int limite, int id);
+int emp_modificarID(Empleado* pEmpleados, int indice, int limite);
+int emp_borrarPantallaPorID(Empleado* pEmpleados, int id, int limite);
+int emp_chequearIndice(Empleado* pEmpleados,int limite);
+int emp_calcularTotalPromedioSalarios(Empleado* pEmpleados, int limite);
+int emp_mostrarEmpleadosOrdenados(Empleado* pEmpleados,int limite);
+int emp_ordenarApellidos(Empleado* pEmpleados, int limite);
+int emp_ordenarSectores(Empleado* pEmpleados, int limite);
 
 #endif // EMPLEADOS_H_INCLUDED

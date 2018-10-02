@@ -4,37 +4,29 @@
 #include "empleados.h"
 #include "utn.h"
 static int generarID(void);
-
-int altaForzada(Empleado* empleados, int limite,char* nombre,int sector, char* apellido, float salario)
-{
-    int retorno = -1;
-    int indiceVacio;
-    indicesVacios(empleados,limite, &indiceVacio);
-    if(empleados != NULL && limite >0)
-    {
-          if(indiceVacio >= 0)
-          {
-            strncpy(empleados[indiceVacio].nombre,nombre,51);
-            empleados[indiceVacio].sector=sector;
-            strncpy(empleados[indiceVacio].apellido,apellido,51);
-            empleados[indiceVacio].salario=salario;
-            empleados[indiceVacio].ID=generarID();
-            empleados[indiceVacio].isEmpty=0;
-            retorno =0;
-          }
-    }
-    return retorno;
-}
-int cargarDatosVacio(Empleado* empleados, int limite)
+/**
+    emp_cargarDatosVacio: Carga un valor en el mismo campo de todas las posiciones del array recibido.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_cargarDatosVacio(Empleado* pEmpleados, int limite)
 {
     int i;
     for(i=0;i<limite;i++)
     {
-        empleados[i].isEmpty=-1;
+        pEmpleados[i].isEmpty=-1;
     }
     return 0;
 }
-int cargarIndice(Empleado* empleados,int indice,int limite)
+/**
+    emp_cargarIndice: carga valores en la posicion del array recibido.
+    @param pEmpleado: Guarda el array recibido.
+    @param indice: Guarda el int de la posicion del array.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_cargarIndice(Empleado* pEmpleados,int indice,int limite)
 {
     char auxNombre[32];
     char auxApellido[32];
@@ -51,12 +43,12 @@ int cargarIndice(Empleado* empleados,int indice,int limite)
                     {
                         if(utn_getNumeroDecimal(&auxSalario, 2, "Salario: \n", "\nError\n",15000,0)== 0)
                         {
-                                strncpy(empleados[indice].nombre,auxNombre,32);
-                                strncpy(empleados[indice].apellido,auxApellido,128);
-                                empleados[indice].sector = auxSector;
-                                empleados[indice].salario = auxSalario;
-                                empleados[indice].isEmpty = 0;
-                                empleados[indice].ID = generarID();
+                                strncpy(pEmpleados[indice].nombre,auxNombre,32);
+                                strncpy(pEmpleados[indice].apellido,auxApellido,128);
+                                pEmpleados[indice].sector = auxSector;
+                                pEmpleados[indice].salario = auxSalario;
+                                pEmpleados[indice].isEmpty = 0;
+                                pEmpleados[indice].ID = generarID();
                         }
                     }
                 }
@@ -64,15 +56,22 @@ int cargarIndice(Empleado* empleados,int indice,int limite)
     }
     return 0;
 }
-int indicesVacios(Empleado* empleados,int limite,int* indiceVacio)
+/**
+    emp_indicesVacios: Busca dentro del array hasta encontrar un indice vacio donde cargar un dato.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @param indiceVacio: Guarda el indice de la posicion vacia del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_indicesVacios(Empleado* pEmpleados,int limite,int* indiceVacio)
 {
-    int i=0;
+    int i = 0;
     int retorno = -1;
-    while(i<limite)
+    while(i < limite)
     {
-        if(empleados[i].isEmpty==-1)
+        if(pEmpleados[i].isEmpty == -1)
         {
-            *indiceVacio=i;
+            *indiceVacio = i;
             retorno = 0;
             break;
         }
@@ -80,18 +79,30 @@ int indicesVacios(Empleado* empleados,int limite,int* indiceVacio)
     }
     return retorno;
 }
+/**
+    generarID: Genera un ID. Comienza en -1 para ir generando IDs desde el 0 en adelante.
+    @param cont: Contador.
+    @return return cont + 1.
+*/
 static int generarID(void)
 {
     static int cont = -1;
     return ++cont;
 }
-int buscarPantallaPorID(Empleado* empleados, int limite, int id)
+/**
+    emp_buscarEmpleadoPorID: Recibe un ID para buscar un empleado.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @param id: Guarda el int del empleado a buscar.
+    @return return el indice del array donde esta el empleado.
+*/
+int emp_buscarPantallaPorID(Empleado* pEmpleados, int limite, int id)
 {
     int i;
     int retorno = -1;
     for(i = 0; i < limite; i++)
     {
-        if(empleados[i].isEmpty == 0 && empleados[i].ID == id)
+        if(pEmpleados[i].isEmpty == 0 && pEmpleados[i].ID == id)
         {
             retorno = i;
             break;
@@ -99,7 +110,14 @@ int buscarPantallaPorID(Empleado* empleados, int limite, int id)
     }
     return retorno;
 }
-int modificarID(Empleado* empleados, int indice, int limite)
+/**
+    emp_modificarIndice: Recibe un ID para modificar una posicion del array.
+    @param pEmpleado: Guarda el array recibido.
+    @param id: Guarda el int recibido del ID a modificar.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_modificarID(Empleado* pEmpleados, int indice, int limite)
 {
     char auxNombre[51];
     char auxApellido[51];
@@ -108,10 +126,10 @@ int modificarID(Empleado* empleados, int indice, int limite)
     int id;
     int opciones;
     int salir=0;
-    id = buscarPantallaPorID(empleados,limite,indice);
+    id = emp_buscarPantallaPorID(pEmpleados,limite,indice);
     if(id >= 0)
     {
-        if(empleados != NULL && limite >0)
+        if(pEmpleados != NULL && limite >0)
         {
             do
             {
@@ -124,26 +142,26 @@ int modificarID(Empleado* empleados, int indice, int limite)
                             printf("Nuevo nombre:\n");
                             if(utn_getString(auxNombre,51)==0)
                             {
-                                 strncpy(empleados[indice].nombre,auxNombre,51);
+                                 strncpy(pEmpleados[indice].nombre,auxNombre,51);
                             }
                             break;
                         case 2:
                              printf("Nuevo apellido: \n");
                             if(utn_getString(auxApellido,128)==0)
                             {
-                                strncpy(empleados[indice].apellido,auxApellido,51);
+                                strncpy(pEmpleados[indice].apellido,auxApellido,51);
                             }
                             break;
                         case 3:
                             if(utn_getEntero(&auxSector,2,"Nuevo sector: \n", "\nError\n",4,0) == 0)
                             {
-                                empleados[indice].sector = auxSector;
+                                pEmpleados[indice].sector = auxSector;
                             }
                             break;
                         case 4:
                             if(utn_getNumeroDecimal(&auxSalario,2,"Nuevo salario: \n","\nError\n",15000,0) == 0)
                             {
-                                empleados[indice].salario = auxSalario;
+                                pEmpleados[indice].salario = auxSalario;
                             }
                             system("pause");
                             break;
@@ -155,30 +173,43 @@ int modificarID(Empleado* empleados, int indice, int limite)
     }
     return 0;
 }
-int borrarPantallaPorID(Empleado* empleados, int id, int limite)
+/**
+    emp_borrarEmpleado: Recibe un ID para borrar un empleado.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @param id: Guarda el int del empleado a borrar.
+    @return return 0 OK, -1 Error.
+*/
+int emp_borrarPantallaPorID(Empleado* pEmpleados, int id, int limite)
 {
     int retorno = -1;
     int i;
     for(i = 0; i < limite; i++)
     {
-        if(empleados[i].isEmpty == 0 && empleados[i].ID == id)
+        if(pEmpleados[i].isEmpty == 0 && pEmpleados[i].ID == id)
         {
-            empleados[i].isEmpty = -1;
+            pEmpleados[i].isEmpty = -1;
             retorno = 0;
             break;
         }
     }
     return retorno;
 }
-int chequearIndice(Empleado* empleados,int limite)
+/**
+    emp_chequearIndice: Recibe el array para chequear si esta cargado o no.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_chequearIndice(Empleado* pEmpleados,int limite)
 {
     int i=0;
     int retorno = 0;
-    if(empleados != NULL && limite > 0)
+    if(pEmpleados != NULL && limite > 0)
     {
          while(i<limite)
         {
-            if(empleados[i].isEmpty==0)
+            if(pEmpleados[i].isEmpty==0)
             {
                 retorno = -1;
                 break;
@@ -189,7 +220,134 @@ int chequearIndice(Empleado* empleados,int limite)
 
     return retorno;
 }
-int calcularTotalPromedioSalarios(Empleado* empleados, int limite)
+/**
+    emp_mostrarEmpleadosOrdenados: Muestra los datos ordenados alfabeticamente y por sector de
+    todas las posiciones del array.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_mostrarEmpleadosOrdenados(Empleado* pEmpleados,int limite)
+{
+    int retorno=-1;
+    int i;
+    if(pEmpleados != NULL && limite > 0)
+    {
+        if(emp_ordenarApellidos(pEmpleados, limite) == 0 && emp_ordenarSectores(pEmpleados, limite) == 0)
+        {
+            for(i=0;i<limite;i++)
+            {
+                if(pEmpleados[i].isEmpty==0)
+                {
+                    printf("\nEl nombre del empleado es: %s", pEmpleados[i].nombre);
+                    printf("\nEl apellido del empleado es: %s", pEmpleados[i].apellido);
+                    printf("\nEl sector del empleado es: %d", pEmpleados[i].sector);
+                    printf("\nEl salario del empleado es: %.2f\n", pEmpleados[i].salario);
+                    printf("El ID del empleado es: %d\n", pEmpleados[i].ID);
+                    retorno=0;
+                }
+            }
+        }
+    }
+
+    return retorno;
+}
+/**
+    emp_ordenarApellidos: Recibe el array y lo ordena alfabeticamente usando el metodo Insertion.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_ordenarApellidos(Empleado* pEmpleados, int limite)
+{
+    int retorno = -1;
+    int i;
+    int j;
+    int auxID;
+    int auxSector;
+    float auxSalario;
+    char auxNombre[51];
+    char auxApellido[51];
+    if(pEmpleados != NULL && limite > 0)
+    {
+        for(i=0; i < limite; i++)
+        {
+            if(pEmpleados[i].isEmpty == 0)
+            {
+                strcpy(auxNombre, pEmpleados[i].nombre);
+                strcpy(auxApellido, pEmpleados[i].apellido);
+                auxSector = pEmpleados[i].sector;
+                auxSalario = pEmpleados[i].salario;
+                auxID = pEmpleados[i].ID;
+                j = i-1;
+                while(j>=0 && strcmp(auxApellido, pEmpleados[j].apellido)<0)
+                {
+                    pEmpleados[j+1] = pEmpleados[j];
+                    j--;
+                }
+                strcpy(pEmpleados[j+1].nombre, auxNombre);
+                strcpy(pEmpleados[j+1].apellido, auxApellido);
+                pEmpleados[j+1].sector = auxSector;
+                pEmpleados[j+1].salario = auxSalario;
+                pEmpleados[j+1].ID = auxID;
+            }
+        retorno = 0;
+        }
+    }
+    return retorno;
+}
+/**
+    emp_ordenarSectores: Recibe el array y lo ordena por sectores usando el metodo Insertion.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_ordenarSectores(Empleado* pEmpleados, int limite)
+{
+    int retorno = -1;
+    int i;
+    int j;
+    int auxID;
+    int auxSector;
+    float auxSalario;
+    char auxNombre[51];
+    char auxApellido[51];
+    if(pEmpleados != NULL && limite > 0)
+    {
+        for(i=0; i < limite; i++)
+        {
+            if(pEmpleados[i].isEmpty == 0)
+            {
+                strcpy(auxNombre, pEmpleados[i].nombre);
+                strcpy(auxApellido, pEmpleados[i].apellido);
+                auxSector = pEmpleados[i].sector;
+                auxSalario = pEmpleados[i].salario;
+                auxID = pEmpleados[i].ID;
+                j = i-1;
+                while(j>=0 && auxSector < pEmpleados[j].sector)
+                {
+                    pEmpleados[j+1] = pEmpleados[j];
+                    j--;
+                }
+                strcpy(pEmpleados[j+1].nombre, auxNombre);
+                strcpy(pEmpleados[j+1].apellido, auxApellido);
+                pEmpleados[j+1].sector = auxSector;
+                pEmpleados[j+1].salario = auxSalario;
+                pEmpleados[j+1].ID = auxID;
+            }
+        retorno = 0;
+        }
+    }
+    return retorno;
+}
+/**
+    emp_calcularTotalPromedioSalarios: Recibe el array y realiza las operaciones de los salarios
+    pedidas por el ejercicio.
+    @param pEmpleado: Guarda el array recibido.
+    @param limite: Guarda el int del limite del array.
+    @return return 0 OK, -1 Error.
+*/
+int emp_calcularTotalPromedioSalarios(Empleado* pEmpleados, int limite)
 {
     int retorno = -1;
     int i;
@@ -198,13 +356,13 @@ int calcularTotalPromedioSalarios(Empleado* empleados, int limite)
     float cantSalarios = 0;
     float promedio;
     int cantMayorSalario =0;
-    if(empleados != NULL && limite > 0)
+    if(pEmpleados != NULL && limite > 0)
     {
         for(i = 0; i < limite; i++)
         {
-            if(empleados[i].isEmpty == 0)
+            if(pEmpleados[i].isEmpty == 0)
             {
-                acumuladorEmpleados += empleados[i].salario;
+                acumuladorEmpleados += pEmpleados[i].salario;
                 cantSalarios++;
             }
         }
@@ -213,7 +371,7 @@ int calcularTotalPromedioSalarios(Empleado* empleados, int limite)
 
         for(i = 0; i < limite; i++)
         {
-            if(empleados[i].isEmpty == 0 && empleados[i].salario > promedio)
+            if(pEmpleados[i].isEmpty == 0 && pEmpleados[i].salario > promedio)
             {
                 cantMayorSalario++;
                 bandera = 1;
@@ -225,16 +383,13 @@ int calcularTotalPromedioSalarios(Empleado* empleados, int limite)
     {
         printf("El total de los salarios es: %.2f", acumuladorEmpleados);
         printf(" y el promedio es: %.2f\n", promedio);
-    }else
-    {
-        printf("No hay salarios cargados\n");
     }
     if(bandera == 1)
     {
         printf("La cantidad de salarios que superan el promedio es de: %d\n", cantMayorSalario);
     }else
     {
-        printf("Ningun salario supera al promedio");
+        printf("\nNingun salario supera al promedio\n");
     }
     return retorno;
 
