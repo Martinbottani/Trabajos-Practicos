@@ -53,3 +53,50 @@
 	"LinkedList.h"
 	"Employee.h"
 
+1541095192 source:c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\controller.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+	"utn.h"
+	"parser.h"
+
+1540968594 c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\linkedlist.h
+
+1541094372 c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\employee.h
+
+1541101610 c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\utn.h
+
+1540968594 c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\parser.h
+
+1541094947 source:c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\main.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Controller.h"
+	"Employee.h"
+	"utn.h"
+
+1540968594 c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\controller.h
+
+1541098212 source:c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+
+1541101702 source:c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\utn.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"utn.h"
+	"ctype.h"
+
+1541102475 source:c:\users\martin\desktop\utn\laboratorio i\trabajos-practicos\tp3\win_64\employee.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"Employee.h"
+	"utn.h"
+	<string.h>
+
