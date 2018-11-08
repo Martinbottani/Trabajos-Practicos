@@ -451,13 +451,13 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
     int size2 = ll_len(this2);
     void* pElement;
     void* pElement2;
-    int contadorIguales;
+    int contadorIguales = 0;
     if(this != NULL && this2 != NULL)
     {
         for(i = 0; i < size; i++)
         {
             pElement = ll_get(this, i);
-            pElement2 = ll_get(this, i);
+            pElement2 = ll_get(this2, i);
             if(pElement == pElement2)
             {
                 contadorIguales++;
@@ -570,7 +570,39 @@ LinkedList* ll_clone(LinkedList* this)
 int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
 {
     int returnAux =-1;
-
+    int i;
+    int flagSwap;
+    int size = ll_len(this);
+    void* auxList;
+    void* auxElement;
+    void* auxElement2;
+    if(this != NULL && size > 0 && pFunc != NULL && (order == 0 || order == 1))
+    {
+        do
+        {
+            flagSwap = 0;
+            for(i=0;i < size -1; i++)
+            {
+                auxElement = ll_get(this, i);
+                auxElement2 = ll_get(this, i+1);
+                if(auxElement != NULL && auxElement2 != NULL)
+                {
+                    auxList = ll_get(this, i);
+                    if(pFunc(auxElement, auxElement2) == order && ll_set(this, i, auxElement2) == 0
+                    && ll_set(this, i+1, auxList) == 0)
+                    {
+                        flagSwap = 1;
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }while(flagSwap == 1);
+        returnAux = 0;
+    }
     return returnAux;
 
 }
