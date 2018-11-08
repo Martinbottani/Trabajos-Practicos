@@ -573,7 +573,6 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     int i;
     int flagSwap;
     int size = ll_len(this);
-    void* auxList;
     void* auxElement;
     void* auxElement2;
     if(this != NULL && size > 0 && pFunc != NULL && (order == 0 || order == 1))
@@ -587,16 +586,11 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
                 auxElement2 = ll_get(this, i+1);
                 if(auxElement != NULL && auxElement2 != NULL)
                 {
-                    auxList = ll_get(this, i);
-                    if(pFunc(auxElement, auxElement2) == order && ll_set(this, i, auxElement2) == 0
-                    && ll_set(this, i+1, auxList) == 0)
+                    if((pFunc(auxElement, auxElement2) == -1 && order == 0) || (pFunc(auxElement, auxElement2) == 1 && order == 1))
                     {
                         flagSwap = 1;
-                        continue;
-                    }
-                    else
-                    {
-                        break;
+                        ll_set(this, i, auxElement2);
+                        ll_set(this, i+1, auxElement);
                     }
                 }
             }
